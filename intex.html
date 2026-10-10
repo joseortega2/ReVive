@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REVIVE - Prótesis Ecológicas e Innovación Social</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Three.js for 3D Interactive Model Viewer -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                            dark: '#0f291e'
+                        },
+                        tech: {
+                            500: '#06b6d4',
+                            600: '#0891b2',
+                            700: '#0e7490'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-text {
+            background: linear-gradient(135deg, #22c55e 0%, #0891b2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(229, 231, 235, 0.8);
+        }
+        .glass-dark {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(51, 65, 85, 0.6);
+        }
+        .pulse-glow {
+            box-shadow: 0 0 25px rgba(34, 197, 94, 0.35);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #16a34a;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- NAVIGATION BAR -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200/80 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-brand-600 to-tech-500 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-brand-500/20 group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-recycle"></i>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-black tracking-tight text-slate-900 group-hover:text-brand-600 transition-colors">REVIVE</span>
+                        <span class="block text-[10px] font-semibold text-brand-600 tracking-widest uppercase">Prótesis Sostenibles</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Nav Links -->
+                <div class="hidden md:flex items-center space-x-8 text-sm font-semibold text-slate-600">
+                    <a href="#problema" class="hover:text-brand-600 transition-colors">Problema y Solución</a>
+                    <a href="#ods" class="hover:text-brand-600 transition-colors">ODS Impacto</a>
+                    <a href="#proceso" class="hover:text-brand-600 transition-colors">Ciclo ReVive</a>
+                    <a href="#3d-viewer" class="hover:text-brand-600 transition-colors">Visor 3D</a>
+                    <a href="#canvas" class="hover:text-brand-600 transition-colors">Plan de Negocios</a>
+                    <a href="#equipo" class="hover:text-brand-600 transition-colors">Equipo #4</a>
+                </div>
+
+                <!-- Call to action -->
+                <div class="hidden lg:flex items-center gap-3">
+                    <a href="#donar" class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-bold transition-all">
+                        Donar PET
+                    </a>
+                    <a href="#contacto" class="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-sm font-bold shadow-md shadow-brand-600/30 hover:shadow-lg transition-all hover:-translate-y-0.5">
+                        Solicitar Prótesis
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:outline-none" aria-label="Abrir menú">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Nav Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-3">
+            <a href="#problema" class="block py-2 text-slate-600 font-medium hover:text-brand-600">Problema y Solución</a>
+            <a href="#ods" class="block py-2 text-slate-600 font-medium hover:text-brand-600">ODS Impacto</a>
+            <a href="#proceso" class="block py-2 text-slate-600 font-medium hover:text-brand-600">Ciclo ReVive</a>
+            <a href="#3d-viewer" class="block py-2 text-slate-600 font-medium hover:text-brand-600">Visor 3D</a>
+            <a href="#canvas" class="block py-2 text-slate-600 font-medium hover:text-brand-600">Plan de Negocios</a>
+            <a href="#equipo" class="block py-2 text-slate-600 font-medium hover:text-brand-600">Equipo #4</a>
+            <div class="pt-2 flex flex-col gap-2">
+                <a href="#donar" class="w-full text-center py-2.5 rounded-xl bg-slate-100 font-bold text-slate-800">Donar PET</a>
+                <a href="#contacto" class="w-full text-center py-2.5 rounded-xl bg-brand-600 text-white font-bold">Solicitar Prótesis</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="relative pt-12 pb-20 lg:pt-20 lg:pb-28 overflow-hidden bg-gradient-to-b from-brand-50/60 via-slate-50 to-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Hero Content -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-100 text-brand-800 text-xs font-bold tracking-wide uppercase">
+                        <span class="w-2 h-2 rounded-full bg-brand-500 animate-ping"></span>
+                        Proyecto Social & Sustentable • Equipo #4
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 leading-tight">
+                        Transformamos <span class="gradient-text">residuos plásticos</span> en movilidad y esperanza.
+                    </h1>
+
+                    <p class="text-lg text-slate-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
+                        ReVive convierte botellas de plástico PET recolectadas en filamento 3D de alta resistencia para la fabricación de **prótesis funcionales, accesibles y ergonómicas**, devolviendo la dignidad y calidad de vida a personas con extremidades faltantes.
+                    </p>
+
+                    <!-- CTAs & Stats -->
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
+                        <a href="#3d-viewer" class="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold shadow-lg shadow-brand-600/30 hover:shadow-xl hover:-translate-y-0.5 transition-all">
+                            <i class="fa-solid fa-cube"></i> Explorar Modelo 3D
+                        </a>
+                        <a href="#canvas" class="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold shadow-lg hover:-translate-y-0.5 transition-all">
+                            <i class="fa-solid fa-chart-pie"></i> Ver Plan de Negocios
+                        </a>
+                    </div>
+
+                    <!-- Live Impact Badges -->
+                    <div class="pt-8 border-t border-slate-200/80 grid grid-cols-3 gap-4 max-w-lg mx-auto lg:mx-0">
+                        <div class="text-center lg:text-left">
+                            <p class="text-2xl sm:text-3xl font-black text-slate-900" id="counter-bottles">12,500+</p>
+                            <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Botellas PET Recicladas</p>
+                        </div>
+                        <div class="text-center lg:text-left">
+                            <p class="text-2xl sm:text-3xl font-black text-brand-600" id="counter-cost">-75%</p>
+                            <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Costo vs Prótesis Tradicional</p>
+                        </div>
+                        <div class="text-center lg:text-left">
+                            <p class="text-2xl sm:text-3xl font-black text-tech-600">100%</p>
+                            <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Material Reciclable</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Visual Showcase -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative mx-auto max-w-md lg:max-w-none">
+                        <!-- Background glow decoration -->
+                        <div class="absolute -top-6 -left-6 w-72 h-72 bg-brand-200 rounded-full filter blur-3xl opacity-70 animate-pulse"></div>
+                        <div class="absolute -bottom-6 -right-6 w-72 h-72 bg-tech-500/20 rounded-full filter blur-3xl opacity-70"></div>
+                        
+                        <!-- Graphic Card simulating the Original Sketch -->
+                        <div class="relative bg-white rounded-3xl p-6 shadow-2xl border border-slate-100 overflow-hidden">
+                            <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Boceto Oficial • ReVive</span>
+                                <span class="px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 text-xs font-bold">ODS #3 + ODS #12</span>
+                            </div>
+
+                            <!-- Interactive graphic representation -->
+                            <div class="my-6 bg-slate-900 rounded-2xl p-6 text-white relative overflow-hidden group">
+                                <div class="absolute inset-0 bg-gradient-to-tr from-brand-900/50 to-tech-700/30"></div>
+                                <div class="relative z-10 flex flex-col items-center text-center py-6">
+                                    <div class="w-20 h-20 rounded-2xl bg-brand-500/20 border border-brand-400/40 flex items-center justify-center text-brand-400 text-4xl mb-4 group-hover:scale-110 transition-transform">
+                                        <i class="fa-solid fa-hand-holding-medical"></i>
+                                    </div>
+                                    <h3 class="text-xl font-bold">Prótesis Biónica R-PET</h3>
+                                    <p class="text-xs text-slate-300 mt-2 max-w-xs">Fabricada con filamento extruido de envases PET reutilizados mediante impresión 3D aditiva.</p>
+                                </div>
+                            </div>
+
+                            <!-- Small Mascot Quote from Sketch -->
+                            <div class="bg-amber-50 border border-amber-200 rounded-xl p-3.5 flex items-center gap-3">
+                                <div class="text-2xl">🌱</div>
+                                <p class="text-xs font-semibold text-amber-900 italic">
+                                    "Recicla con propósito: ¡Transforma un residuo en una nueva oportunidad de vida!"
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- PROBLEM & SOLUTION SECTION -->
+    <section id="problema" class="py-20 bg-white border-t border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-brand-600 mb-2">Diagnóstico del Entorno</h2>
+                <p class="text-3xl sm:text-4xl font-extrabold text-slate-900">Dos Grandes Desafíos, Una Sola Solución Circular</p>
+                <p class="text-slate-600 mt-4">Unimos la atención médica accesible con la economía circular sustentable.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 lg:gap-12">
+                
+                <!-- El Problema -->
+                <div class="bg-rose-50/60 border border-rose-100 rounded-3xl p-8 hover:shadow-lg transition-all">
+                    <div class="w-14 h-14 rounded-2xl bg-rose-500 text-white flex items-center justify-center text-2xl font-bold mb-6 shadow-md shadow-rose-500/20">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-4">El Problema Doble</h3>
+                    <ul class="space-y-4 text-slate-700">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-circle-xmark text-rose-500 mt-1"></i>
+                            <div>
+                                <strong class="text-slate-900 block">Inaccesibilidad Económica Médica:</strong>
+                                Las prótesis tradicionales de extremidades superiores e inferiores tienen costos exorbitantes (desde $50,000 hasta $300,000+ MXN), inaccesibles para familias de escasos recursos.
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-circle-xmark text-rose-500 mt-1"></i>
+                            <div>
+                                <strong class="text-slate-900 block">Contaminación por Plásticos PET:</strong>
+                                Millones de toneladas de envases de polietileno tereftalato (PET) terminan en vertederos e hídricos locales (como los ríos de Jalisco), tardando más de 500 años en degradarse.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- La Solución REVIVE -->
+                <div class="bg-emerald-50/60 border border-emerald-100 rounded-3xl p-8 hover:shadow-lg transition-all">
+                    <div class="w-14 h-14 rounded-2xl bg-brand-600 text-white flex items-center justify-center text-2xl font-bold mb-6 shadow-md shadow-brand-600/20">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-4">La Solución ReVive</h3>
+                    <ul class="space-y-4 text-slate-700">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-circle-check text-brand-600 mt-1"></i>
+                            <div>
+                                <strong class="text-slate-900 block">Reciclaje con Alto Valor Agregado:</strong>
+                                Recolectamos PET sobrante de la industria embotelladora y comunidades, convirtiéndolo en filamento de impresión 3D de alta densidad técnico-mecánica.
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-circle-check text-brand-600 mt-1"></i>
+                            <div>
+                                <strong class="text-slate-900 block">Salud Digna, Ergonómica y Reducción de Costos:</strong>
+                                Diseñamos y modelamos prótesis personalizadas y ligeras a una fracción del costo tradicional (-75%), entregando funcionalidad adaptada al usuario final.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ODS ALIGNMENT SECTION -->
+    <section id="ods" class="py-20 bg-slate-900 text-white relative overflow-hidden">
+        <!-- Background light shapes -->
+        <div class="absolute top-0 right-0 w-96 h-96 bg-brand-600/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-tech-600/10 rounded-full blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="px-3.5 py-1.5 rounded-full bg-brand-500/20 text-brand-400 border border-brand-500/30 text-xs font-bold uppercase tracking-wider">
+                    Compromiso Agenda 2030
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-black mt-4">Objetivos de Desarrollo Sostenible (ODS)</h2>
+                <p class="text-slate-400 mt-3">ReVive contribuye directamente a las metas globales planteadas en la lámina del proyecto.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- ODS #3 -->
+                <div class="glass-dark rounded-3xl p-6 border border-slate-700/60 hover:border-emerald-500/50 transition-all group">
+                    <div class="w-16 h-16 rounded-2xl bg-emerald-600 flex items-center justify-center text-white text-3xl font-black mb-6 shadow-lg shadow-emerald-600/30">
+                        3
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">Salud y Bienestar</h3>
+                    <p class="text-xs text-slate-400 uppercase font-semibold mb-3">ODS Principal N°1</p>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Garantiza una vida sana y promueve el bienestar mediante el acceso a prótesis ergonómicas de alta calidad para personas amputadas o con discapacidad motora.
+                    </p>
+                </div>
+
+                <!-- ODS #12 -->
+                <div class="glass-dark rounded-3xl p-6 border border-slate-700/60 hover:border-amber-500/50 transition-all group">
+                    <div class="w-16 h-16 rounded-2xl bg-amber-600 flex items-center justify-center text-white text-3xl font-black mb-6 shadow-lg shadow-amber-600/30">
+                        12
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-amber-400 transition-colors">Producción y Consumo Responsables</h3>
+                    <p class="text-xs text-slate-400 uppercase font-semibold mb-3">ODS Principal N°2</p>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Promueve la economía circular al reincorporar los desperdicios plásticos tipo PET en cadenas de valor de alta tecnología, reduciendo sustancialmente los desechos solares.
+                    </p>
+                </div>
+
+                <!-- ODS #10 -->
+                <div class="glass-dark rounded-3xl p-6 border border-slate-700/60 hover:border-pink-500/50 transition-all group">
+                    <div class="w-16 h-16 rounded-2xl bg-pink-600 flex items-center justify-center text-white text-3xl font-black mb-6 shadow-lg shadow-pink-600/30">
+                        10
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-pink-400 transition-colors">Reducción de las Desigualdades</h3>
+                    <p class="text-xs text-slate-400 uppercase font-semibold mb-3">ODS Complementario</p>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Democratiza el acceso a tecnología ortopédica para poblaciones vulnerables y sin seguro de gastos médicos mayores.
+                    </p>
+                </div>
+
+                <!-- ODS #17 -->
+                <div class="glass-dark rounded-3xl p-6 border border-slate-700/60 hover:border-cyan-500/50 transition-all group">
+                    <div class="w-16 h-16 rounded-2xl bg-cyan-600 flex items-center justify-center text-white text-3xl font-black mb-6 shadow-lg shadow-cyan-600/30">
+                        17
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">Alianzas para Lograr los Objetivos</h3>
+                    <p class="text-xs text-slate-400 uppercase font-semibold mb-3">ODS Complementario</p>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Colabora activamente con Stratasys, DIF Jalisco, embotelladoras (Coca Cola, Pepsi) y Make-a-Wish para maximizar el alcance del impacto.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- PROCESS WORKFLOW (CICLO REVIVE) -->
+    <section id="proceso" class="py-20 bg-slate-50 border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-brand-600 mb-2">Ingeniería Circular</h2>
+                <p class="text-3xl sm:text-4xl font-extrabold text-slate-900">El Ciclo de Producción ReVive</p>
+                <p class="text-slate-600 mt-4">Paso a paso: De la botella de plástico a la libertad de movimiento.</p>
+            </div>
+
+            <!-- Workflow Steps Grid -->
+            <div class="grid md:grid-cols-4 gap-6 relative">
+                
+                <!-- Step 1 -->
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 relative group hover:border-brand-500 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-brand-100 text-brand-700 font-bold flex items-center justify-center text-xl mb-4 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                        01
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Acopio de PET</h3>
+                    <p class="text-sm text-slate-600">Recolectamos botellas desechables a través de empresas embotelladoras socias y centros comunitarios.</p>
+                    <div class="mt-4 pt-4 border-t border-slate-100 text-xs text-slate-500 font-semibold flex items-center gap-2">
+                        <i class="fa-solid fa-bottle-water text-brand-500"></i> Clasificación y Limpieza
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 relative group hover:border-brand-500 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-brand-100 text-brand-700 font-bold flex items-center justify-center text-xl mb-4 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                        02
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Extrusión de Filamento</h3>
+                    <p class="text-sm text-slate-600">Procesamos el plástico en la máquina fabricadora de filamento técnico (R-PET) para impresión tridimensional.</p>
+                    <div class="mt-4 pt-4 border-t border-slate-100 text-xs text-slate-500 font-semibold flex items-center gap-2">
+                        <i class="fa-solid fa-industry text-brand-500"></i> Filamento Tecnológico 1.75mm
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 relative group hover:border-brand-500 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-brand-100 text-brand-700 font-bold flex items-center justify-center text-xl mb-4 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                        03
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Impresión 3D Médica</h3>
+                    <p class="text-sm text-slate-600">Con impresoras 3D de alta precisión (alianza Stratasys), fabricamos los moldes y estructuras ergonómicas.</p>
+                    <div class="mt-4 pt-4 border-t border-slate-100 text-xs text-slate-500 font-semibold flex items-center gap-2">
+                        <i class="fa-solid fa-print text-brand-500"></i> Modelado Personalizado
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 relative group hover:border-brand-500 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-brand-100 text-brand-700 font-bold flex items-center justify-center text-xl mb-4 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                        04
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Entrega y Adaptación</h3>
+                    <p class="text-sm text-slate-600">Ajuste cara a cara en centros de rehabilitación para el paciente, asegurando confort y funcionalidad total.</p>
+                    <div class="mt-4 pt-4 border-t border-slate-100 text-xs text-slate-500 font-semibold flex items-center gap-2">
+                        <i class="fa-solid fa-heart-pulse text-brand-500"></i> Seguimiento & Re-reciclaje
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 3D INTERACTIVE VIEWER & CUSTOMIZER -->
+    <section id="3d-viewer" class="py-20 bg-slate-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-8 items-center">
+                
+                <!-- Controls Panel -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div>
+                        <span class="px-3 py-1 rounded-full bg-tech-500/20 text-tech-400 text-xs font-bold uppercase tracking-wider border border-tech-500/30">
+                            Simulador Interactivo
+                        </span>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold mt-3">Configura la Prótesis R-PET</h2>
+                        <p class="text-slate-400 text-sm mt-2">Visualiza en tiempo real el modelo tridimensional de la prótesis articulada fabricada con plástico reciclado.</p>
+                    </div>
+
+                    <!-- Customizer Options -->
+                    <div class="glass-dark p-6 rounded-2xl space-y-5 border border-slate-700">
+                        <!-- Color Picker -->
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-400 mb-2">Color del Polímero PET</label>
+                            <div class="flex gap-3">
+                                <button onclick="changeProstheticColor(0x22c55e)" class="w-10 h-10 rounded-full bg-emerald-500 ring-2 ring-white/50 hover:scale-110 transition-transform" title="Verde Ecológico"></button>
+                                <button onclick="changeProstheticColor(0x0891b2)" class="w-10 h-10 rounded-full bg-cyan-600 hover:scale-110 transition-transform" title="Azul Biónico"></button>
+                                <button onclick="changeProstheticColor(0x64748b)" class="w-10 h-10 rounded-full bg-slate-500 hover:scale-110 transition-transform" title="Gris Grafito"></button>
+                                <button onclick="changeProstheticColor(0xe11d48)" class="w-10 h-10 rounded-full bg-rose-600 hover:scale-110 transition-transform" title="Rojo Deportivo"></button>
+                            </div>
+                        </div>
+
+                        <!-- Extremity type -->
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-400 mb-2">Segmento de Extremidad</label>
+                            <select id="extremity-select" class="w-full bg-slate-800 border border-slate-700 rounded-xl py-2.5 px-3 text-sm text-white focus:outline-none focus:border-brand-500">
+                                <option value="arm">Prótesis de Brazo / Antebrazo</option>
+                                <option value="hand">Mano Biónica Funcional</option>
+                            </select>
+                        </div>
+
+                        <!-- Stats box -->
+                        <div class="bg-slate-800/80 p-4 rounded-xl space-y-2 text-xs">
+                            <div class="flex justify-between text-slate-300">
+                                <span>Botellas PET requeridas:</span>
+                                <strong class="text-brand-400" id="bottles-needed">45 Botellas (500ml)</strong>
+                            </div>
+                            <div class="flex justify-between text-slate-300">
+                                <span>Peso estimado:</span>
+                                <strong class="text-white">420 gramos</strong>
+                            </div>
+                            <div class="flex justify-between text-slate-300">
+                                <span>Resistencia mecánica:</span>
+                                <strong class="text-tech-400">PETG Grado Médico</strong>
+                            </div>
+                        </div>
+
+                        <button onclick="reset3DCamera()" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition-colors flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-rotate-right"></i> Restablecer Vista de Cámara
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3D Viewport Container -->
+                <div class="lg:col-span-7 relative">
+                    <div class="relative w-full h-[450px] bg-slate-950 rounded-3xl border border-slate-800 overflow-hidden shadow-2xl">
+                        <!-- Canvas Three.js -->
+                        <div id="three-container" class="w-full h-full cursor-grab active:cursor-grabbing"></div>
+
+                        <!-- Helper Overlay instructions -->
+                        <div class="absolute bottom-4 left-4 bg-slate-900/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-700 text-[11px] text-slate-300 flex items-center gap-2">
+                            <i class="fa-solid fa-hand-pointer text-brand-400"></i> Haz clic y arrastra para rotar en 3D
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- BUSINESS MODEL CANVAS BREAKDOWN -->
+    <section id="canvas" class="py-20 bg-slate-100 border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="px-3.5 py-1.5 rounded-full bg-slate-200 text-slate-800 text-xs font-bold uppercase tracking-wider">
+                    Estrategia Financiera & Operativa
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-black text-slate-900 mt-3">Esquema de Modelo de Negocios</h2>
+                <p class="text-slate-600 mt-2">Desglose integral extraído directamente de la matriz de trabajo del Equipo #4.</p>
+            </div>
+
+            <!-- Canvas Grid 9-Boxes Layout -->
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                
+                <!-- Key Partners -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center gap-2 text-brand-600 font-bold text-sm mb-3">
+                        <i class="fa-solid fa-handshake"></i> Socios Clave
+                    </div>
+                    <ul class="text-xs text-slate-700 space-y-2 list-disc list-inside">
+                        <li><strong>Empresas PET:</strong> Coca Cola, Pepsi, etc.</li>
+                        <li><strong>Comunidades locales:</strong> Acopio y concientización.</li>
+                        <li><strong>Stratasys:</strong> Proveedor especializado de impresoras 3D.</li>
+                        <li><strong>Centros de Rehabilitación</strong> e instituciones de salud.</li>
+                        <li><strong>Proactible</strong> (Aliados ortopédicos).</li>
+                    </ul>
+                </div>
+
+                <!-- Key Activities -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center gap-2 text-tech-600 font-bold text-sm mb-3">
+                        <i class="fa-solid fa-gears"></i> Actividades Clave
+                    </div>
+                    <ul class="text-xs text-slate-700 space-y-2 list-disc list-inside">
+                        <li>Creación de prótesis con material PET reciclado.</li>
+                        <li>Transformación de envases plásticos a filamento técnico 3D.</li>
+                        <li>Escaneo, ajuste ergonómico y ensamblado de piezas.</li>
+                    </ul>
+                </div>
+
+                <!-- Value Proposition -->
+                <div class="bg-gradient-to-b from-brand-500 to-brand-700 text-white p-5 rounded-2xl shadow-md lg:col-span-1">
+                    <div class="flex items-center gap-2 font-bold text-sm mb-3 text-brand-100">
+                        <i class="fa-solid fa-star"></i> Propuesta de Valor
+                    </div>
+                    <ol class="text-xs space-y-3 font-medium">
+                        <li class="bg-white/10 p-2.5 rounded-xl border border-white/20">
+                            <strong>1. Fabricación Accesible:</strong> Prótesis hasta 75% más económicas.
+                        </li>
+                        <li class="bg-white/10 p-2.5 rounded-xl border border-white/20">
+                            <strong>2. Apoyo Ambiental:</strong> Reutilización directa de contaminantes PET.
+                        </li>
+                        <li class="bg-white/10 p-2.5 rounded-xl border border-white/20">
+                            <strong>3. Salud Digna:</strong> Prótesis cómodas, funcionales y estéticas.
+                        </li>
+                    </ol>
+                </div>
+
+                <!-- Customer Relationships -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center gap-2 text-purple-600 font-bold text-sm mb-3">
+                        <i class="fa-solid fa-comments"></i> Relación con Clientes
+                    </div>
+                    <ul class="text-xs text-slate-700 space-y-2 list-disc list-inside">
+                        <li>Redes sociales & Sitio web interactivo.</li>
+                        <li>Atención personalizada cara a cara.</li>
+                        <li>Acompañamiento post-entrega y rehabilitación.</li>
+                    </ul>
+                </div>
+
+                <!-- Customer Segments -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center gap-2 text-amber-600 font-bold text-sm mb-3">
+                        <i class="fa-solid fa-users"></i> Segmentos de Mercado
+                    </div>
+                    <ul class="text-xs text-slate-700 space-y-2 list-disc list-inside">
+                        <li><strong>Particulares:</strong> Personas con discapacidad / faltantes de extremidad.</li>
+                        <li><strong>Hospitales:</strong> Públicos y Privados.</li>
+                        <li><strong>DIF Jalisco:</strong> Programas asistenciales estatales.</li>
+                        <li><strong>Make-A-Wish:</strong> Alianzas de donación infantil.</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Bottom Row: Cost Structure & Revenue Streams -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                
+                <!-- Cost Structure -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="flex items-center gap-2 text-rose-600 font-bold text-base mb-3">
+                        <i class="fa-solid fa-calculator"></i> Estructura de Costos
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-xs text-slate-700">
+                        <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-100">• Sitio web e infraestructura IT</div>
+                        <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-100">• Máquinas impresoras 3D</div>
+                        <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-100">• Mantenimiento de equipo</div>
+                        <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-100">• Traslado y logística de material</div>
+                        <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-100">• Salarios del equipo especialista</div>
+                        <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-100">• Marketing, almacén y distribución</div>
+                    </div>
+                </div>
+
+                <!-- Revenue Streams -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="flex items-center gap-2 text-emerald-600 font-bold text-base mb-3">
+                        <i class="fa-solid fa-sack-dollar"></i> Fuentes de Ingresos
+                    </div>
+                    <ul class="space-y-2 text-xs text-slate-700">
+                        <li class="flex items-center gap-2 bg-emerald-50 p-2.5 rounded-lg border border-emerald-100">
+                            <i class="fa-solid fa-check text-emerald-600"></i>
+                            <span><strong>Venta de moldes y prótesis personalizadas</strong> a particulares e instituciones.</span>
+                        </li>
+                        <li class="flex items-center gap-2 bg-emerald-50 p-2.5 rounded-lg border border-emerald-100">
+                            <i class="fa-solid fa-check text-emerald-600"></i>
+                            <span><strong>Donaciones y Patrocinios corporativos</strong> de RSE (Responsabilidad Social).</span>
+                        </li>
+                        <li class="flex items-center gap-2 bg-emerald-50 p-2.5 rounded-lg border border-emerald-100">
+                            <i class="fa-solid fa-check text-emerald-600"></i>
+                            <span><strong>Suscripción / Mensualidades</strong> con esquemas programados de mantenimiento y reducción progresiva de costos.</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- IMPACT & COST SAVINGS CALCULATOR -->
+    <section class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-gradient-to-r from-slate-900 to-brand-950 rounded-3xl p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden">
+                <div class="relative z-10 space-y-8">
+                    <div class="text-center">
+                        <h2 class="text-2xl sm:text-3xl font-extrabold">Calculadora de Impacto Ecológico y Económico</h2>
+                        <p class="text-slate-300 text-sm mt-2">Mueve la barra para simular cuántas botellas de PET recicladas se transforman en prótesis.</p>
+                    </div>
+
+                    <!-- Slider Control -->
+                    <div class="space-y-3">
+                        <div class="flex justify-between text-sm font-bold">
+                            <span>Botellas PET Recolectadas:</span>
+                            <span id="slider-bottles-val" class="text-brand-400 text-xl">500 botellas</span>
+                        </div>
+                        <input id="impact-slider" type="range" min="100" max="5000" step="100" value="500" class="w-full h-3 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-brand-500">
+                    </div>
+
+                    <!-- Outputs -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center pt-4 border-t border-slate-800">
+                        <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
+                            <span class="block text-2xl font-black text-brand-400" id="calc-prosthetics">11</span>
+                            <span class="text-xs text-slate-400 font-medium">Prótesis Producidas</span>
+                        </div>
+                        <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
+                            <span class="block text-2xl font-black text-tech-400" id="calc-co2">25 kg</span>
+                            <span class="text-xs text-slate-400 font-medium">CO₂ Evitado</span>
+                        </div>
+                        <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
+                            <span class="block text-2xl font-black text-emerald-400" id="calc-savings">$385,000 MXN</span>
+                            <span class="text-xs text-slate-400 font-medium">Ahorro Social Estimado</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TEAM SECTION (EQUIPO #4) -->
+    <section id="equipo" class="py-20 bg-slate-50 border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="px-3.5 py-1.5 rounded-full bg-brand-100 text-brand-800 text-xs font-bold uppercase tracking-wider">
+                    Creadores de la Iniciativa
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-black text-slate-900 mt-3">Equipo #4 • Creadores de ReVive</h2>
+                <p class="text-slate-600 mt-2">Estudiantes e innovadores dedicados al desarrollo de tecnología con impacto socioambiental.</p>
+            </div>
+
+            <!-- 5 Team Members Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+                
+                <!-- Abril García -->
+                <div class="bg-white rounded-2xl p-6 text-center border border-slate-200 shadow-sm hover:shadow-lg transition-all group">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-brand-500 to-tech-500 text-white flex items-center justify-center font-bold text-2xl mx-auto mb-4 group-hover:scale-105 transition-transform shadow-md">
+                        AG
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-lg">Abril García</h3>
+                    <p class="text-xs text-brand-600 font-semibold uppercase tracking-wider mt-1">Diseño Ergonomía</p>
+                    <p class="text-xs text-slate-500 mt-3">Líder de modelado 3D y adaptación anatómica de prótesis.</p>
+                </div>
+
+                <!-- Derek Lara -->
+                <div class="bg-white rounded-2xl p-6 text-center border border-slate-200 shadow-sm hover:shadow-lg transition-all group">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-600 text-white flex items-center justify-center font-bold text-2xl mx-auto mb-4 group-hover:scale-105 transition-transform shadow-md">
+                        DL
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-lg">Derek Lara</h3>
+                    <p class="text-xs text-blue-600 font-semibold uppercase tracking-wider mt-1">Ingeniería de Materiales</p>
+                    <p class="text-xs text-slate-500 mt-3">Especialista en proceso de extrusión de PET a filamento.</p>
+                </div>
+
+                <!-- Eibani Camarena -->
+                <div class="bg-white rounded-2xl p-6 text-center border border-slate-200 shadow-sm hover:shadow-lg transition-all group">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-600 text-white flex items-center justify-center font-bold text-2xl mx-auto mb-4 group-hover:scale-105 transition-transform shadow-md">
+                        EC
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-lg">Eibani Camarena</h3>
+                    <p class="text-xs text-emerald-600 font-semibold uppercase tracking-wider mt-1">Modelo de Negocios</p>
+                    <p class="text-xs text-slate-500 mt-3">Estratega comercial y vinculación institucional.</p>
+                </div>
+
+                <!-- Ian Gallegos -->
+                <div class="bg-white rounded-2xl p-6 text-center border border-slate-200 shadow-sm hover:shadow-lg transition-all group">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-purple-500 to-pink-600 text-white flex items-center justify-center font-bold text-2xl mx-auto mb-4 group-hover:scale-105 transition-transform shadow-md">
+                        IG
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-lg">Ian Gallegos</h3>
+                    <p class="text-xs text-purple-600 font-semibold uppercase tracking-wider mt-1">Desarrollo Tecnológico</p>
+                    <p class="text-xs text-slate-500 mt-3">Programación de plataformas web e impresoras 3D.</p>
+                </div>
+
+                <!-- Jose Ortega -->
+                <div class="bg-white rounded-2xl p-6 text-center border border-slate-200 shadow-sm hover:shadow-lg transition-all group">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-amber-500 to-orange-600 text-white flex items-center justify-center font-bold text-2xl mx-auto mb-4 group-hover:scale-105 transition-transform shadow-md">
+                        JO
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-lg">Jose Ortega</h3>
+                    <p class="text-xs text-amber-600 font-semibold uppercase tracking-wider mt-1">Logística & Acopio</p>
+                    <p class="text-xs text-slate-500 mt-3">Gestión de alianzas con centros comunitarios e industrias.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT AND ALLIANCES FORM SECTION -->
+    <section id="contacto" class="py-20 bg-white border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12">
+                
+                <!-- Contact Info -->
+                <div class="lg:col-span-5 space-y-6">
+                    <span class="text-xs font-bold uppercase tracking-widest text-brand-600">Contacto y Vinculación</span>
+                    <h2 class="text-3xl font-black text-slate-900">Únete a la Revolución ReVive</h2>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        ¿Eres un particular que requiere apoyo, una empresa embotelladora con PET para donar, o una institución de salud interesada en colaborar?
+                    </p>
+
+                    <div class="space-y-4 pt-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-brand-100 text-brand-700 flex items-center justify-center text-xl font-bold">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <span class="block text-xs text-slate-400 font-bold uppercase">Sede de Operaciones</span>
+                                <span class="text-sm font-semibold text-slate-800">Guadalajara, Jalisco, México</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-brand-100 text-brand-700 flex items-center justify-center text-xl font-bold">
+                                <i class="fa-solid fa-handshake"></i>
+                            </div>
+                            <div>
+                                <span class="block text-xs text-slate-400 font-bold uppercase">Aliados Estratégicos</span>
+                                <span class="text-sm font-semibold text-slate-800">DIF Jalisco • Stratasys • Proactible • Make-A-Wish</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form -->
+                <div class="lg:col-span-7 bg-slate-50 p-8 rounded-3xl border border-slate-200">
+                    <form id="revive-contact-form" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nombre Completo</label>
+                                <input type="text" required placeholder="Ej. Ana Martínez" class="w-full bg-white border border-slate-300 rounded-xl py-3 px-4 text-sm text-slate-800 focus:outline-none focus:border-brand-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Correo Electrónico</label>
+                                <input type="email" required placeholder="ejemplo@correo.com" class="w-full bg-white border border-slate-300 rounded-xl py-3 px-4 text-sm text-slate-800 focus:outline-none focus:border-brand-500">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Tipo de Interés</label>
+                                <select class="w-full bg-white border border-slate-300 rounded-xl py-3 px-4 text-sm text-slate-800 focus:outline-none focus:border-brand-500">
+                                    <option>Solicitar Prótesis (Particular)</option>
+                                    <option>Donar PET / Patrocinio Corporativo</option>
+                                    <option>Alianza Hospitalaria / Institucional</option>
+                                    <option>Voluntariado / Equipo #4</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Teléfono de Contacto</label>
+                                <input type="tel" placeholder="(33) 0000-0000" class="w-full bg-white border border-slate-300 rounded-xl py-3 px-4 text-sm text-slate-800 focus:outline-none focus:border-brand-500">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Mensaje o Detalles del Requerimiento</label>
+                            <textarea rows="4" placeholder="Escribe tu mensaje aquí..." class="w-full bg-white border border-slate-300 rounded-xl py-3 px-4 text-sm text-slate-800 focus:outline-none focus:border-brand-500"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-lg shadow-brand-600/30 transition-all">
+                            Enviar Solicitud
+                        </button>
+                    </form>
+
+                    <!-- Success Alert Message Box (Hidden by default) -->
+                    <div id="form-alert" class="hidden mt-4 p-4 rounded-xl bg-emerald-100 border border-emerald-300 text-emerald-800 text-sm font-semibold">
+                        <i class="fa-solid fa-circle-check mr-2"></i> ¡Gracias por comunicarte con ReVive! Nos pondremos en contacto contigo a la brevedad.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-lg bg-brand-600 flex items-center justify-center text-white font-bold">
+                        <i class="fa-solid fa-recycle"></i>
+                    </div>
+                    <span class="text-lg font-extrabold text-white">REVIVE</span>
+                    <span class="text-xs text-slate-500">| Equipo #4 © 2026</span>
+                </div>
+
+                <div class="text-xs text-center md:text-right">
+                    <p>Integrantes: Abril García • Derek Lara • Eibani Camarena • Ian Gallegos • Jose Ortega</p>
+                    <p class="text-slate-500 mt-1">Comprometidos con el ODS #3 (Salud) y ODS #12 (Producción Responsable)</p>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle Mobile Menu
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Form Submit Handler (Custom Alert Box as required)
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const alertBox = document.getElementById('form-alert');
+            alertBox.classList.remove('hidden');
+            e.target.reset();
+            setTimeout(() => {
+                alertBox.classList.add('hidden');
+            }, 6000);
+        }
+
+        // Interactive Impact Calculator
+        const slider = document.getElementById('impact-slider');
+        const sliderVal = document.getElementById('slider-bottles-val');
+        const calcProsthetics = document.getElementById('calc-prosthetics');
+        const calcCO2 = document.getElementById('calc-co2');
+        const calcSavings = document.getElementById('calc-savings');
+
+        slider.addEventListener('input', (e) => {
+            const bottles = parseInt(e.target.value);
+            sliderVal.innerText = `${bottles.toLocaleString()} botellas`;
+            
+            // ~45 bottles per arm prosthetic
+            const prosthetics = Math.floor(bottles / 45);
+            const co2Saved = Math.round(bottles * 0.05); // ~50g CO2 per PET bottle
+            const savingsMXN = prosthetics * 35000; // estimated savings vs market
+
+            calcProsthetics.innerText = prosthetics;
+            calcCO2.innerText = `${co2Saved} kg`;
+            calcSavings.innerText = `$${savingsMXN.toLocaleString()} MXN`;
+        });
+
+        // THREE.JS 3D VIEWPORT ENGINE
+        let scene, camera, renderer, prostheticGroup;
+        let mainMaterial;
+
+        function init3D() {
+            const container = document.getElementById('three-container');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            // Scene
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x020617);
+
+            // Camera
+            camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+            camera.position.set(0, 0, 12);
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(width, height);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            container.appendChild(renderer.domElement);
+
+            // Lights
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+            scene.add(ambientLight);
+
+            const dirLight1 = new THREE.DirectionalLight(0x22c55e, 1.2);
+            dirLight1.position.set(5, 10, 7);
+            scene.add(dirLight1);
+
+            const dirLight2 = new THREE.DirectionalLight(0x0891b2, 0.8);
+            dirLight2.position.set(-5, -5, -5);
+            scene.add(dirLight2);
+
+            // Material
+            mainMaterial = new THREE.MeshStandardMaterial({
+                color: 0x22c55e,
+                roughness: 0.3,
+                metalness: 0.2,
+                wireframe: false
+            });
+
+            // Create Prosthetic Group
+            buildProstheticArm();
+
+            // Mouse Interaction Drag
+            let isDragging = false;
+            let previousMousePosition = { x: 0, y: 0 };
+
+            container.addEventListener('mousedown', (e) => {
+                isDragging = true;
+            });
+
+            container.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const deltaMove = {
+                    x: e.clientX - previousMousePosition.x,
+                    y: e.clientY - previousMousePosition.y
+                };
+
+                if (prostheticGroup) {
+                    prostheticGroup.rotation.y += deltaMove.x * 0.01;
+                    prostheticGroup.rotation.x += deltaMove.y * 0.01;
+                }
+
+                previousMousePosition = { x: e.clientX, y: e.clientY };
+            });
+
+            window.addEventListener('mouseup', () => { isDragging = false; });
+
+            // Touch support
+            container.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            });
+
+            container.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                const deltaMove = {
+                    x: e.touches[0].clientX - previousMousePosition.x,
+                    y: e.touches[0].clientY - previousMousePosition.y
+                };
+                if (prostheticGroup) {
+                    prostheticGroup.rotation.y += deltaMove.x * 0.01;
+                    prostheticGroup.rotation.x += deltaMove.y * 0.01;
+                }
+                previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            });
+
+            window.addEventListener('touchend', () => { isDragging = false; });
+
+            // Handle Resize
+            window.addEventListener('resize', () => {
+                if (!container) return;
+                const newWidth = container.clientWidth;
+                const newHeight = container.clientHeight;
+                camera.aspect = newWidth / newHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(newWidth, newHeight);
+            });
+
+            animate();
+        }
+
+        // Construct 3D Prosthetic Geometry
+        function buildProstheticArm() {
+            if (prostheticGroup) scene.remove(prostheticGroup);
+            prostheticGroup = new THREE.Group();
+
+            // Socket / Forearm (Cylinder tapering)
+            const forearmGeo = new THREE.CylinderGeometry(1.2, 0.8, 4, 16);
+            const forearm = new THREE.Mesh(forearmGeo, mainMaterial);
+            forearm.position.y = 1;
+            prostheticGroup.add(forearm);
+
+            // Wrist Joint Sphere
+            const wristGeo = new THREE.SphereGeometry(0.75, 16, 16);
+            const wrist = new THREE.Mesh(wristGeo, mainMaterial);
+            wrist.position.y = -1.2;
+            prostheticGroup.add(wrist);
+
+            // Palm block
+            const palmGeo = new THREE.BoxGeometry(1.4, 1.2, 0.5);
+            const palm = new THREE.Mesh(palmGeo, mainMaterial);
+            palm.position.y = -2.2;
+            prostheticGroup.add(palm);
+
+            // 4 Articulated Fingers
+            for (let i = 0; i < 4; i++) {
+                const fingerGroup = new THREE.Group();
+                const f1 = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.8), mainMaterial);
+                f1.position.y = -0.4;
+                const f2 = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.6), mainMaterial);
+                f2.position.y = -1.0;
+
+                fingerGroup.add(f1);
+                fingerGroup.add(f2);
+                fingerGroup.position.set(-0.5 + (i * 0.35), -2.8, 0);
+                fingerGroup.rotation.x = 0.2;
+                prostheticGroup.add(fingerGroup);
+            }
+
+            // Thumb
+            const thumb = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.13, 0.7), mainMaterial);
+            thumb.position.set(0.8, -2.4, 0.2);
+            thumb.rotation.z = -0.6;
+            prostheticGroup.add(thumb);
+
+            scene.add(prostheticGroup);
+        }
+
+        function changeProstheticColor(colorHex) {
+            if (mainMaterial) {
+                mainMaterial.color.setHex(colorHex);
+            }
+        }
+
+        function reset3DCamera() {
+            if (prostheticGroup) {
+                prostheticGroup.rotation.set(0, 0, 0);
+            }
+            camera.position.set(0, 0, 12);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            if (prostheticGroup) {
+                prostheticGroup.rotation.y += 0.003; // Gentle auto-spin
+            }
+            renderer.render(scene, camera);
+        }
+
+        // Initialize 3D Engine on Window Load
+        window.onload = function() {
+            init3D();
+        }
+    </script>
+</body>
+</html>
